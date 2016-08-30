@@ -1,0 +1,15 @@
+#player 1
+
+s.listen(1)
+conn, addr = s.accept()
+while 1:
+	data = conn.recv(...)
+	if not data: break
+
+##Sistema de numeração das peças
+	>informações trocadas entre os jogadores
+##Cada peça terá uma numeração única
+#as mensagens trocadas serão a numeração
+#cada mensagem indica qual peça foi posta no tabuleiro
+#o tabuleiro é a informação que é compartilhada 
+#será definido um número que indicará que houve um vencedor
