@@ -1,3 +1,5 @@
+#Classes to domino game --by Rafhael
+
 class Peca:
 	def __init__(self, num_left, num_right, num_id):
 		self.num_left = num_left
@@ -32,7 +34,7 @@ class Tabuleiro:
 				new_peca.rotate()
 				self.array.insert(0,new_peca)
 			else:
-				print 'Jogada impossivel'
+				print 'Invalide move'
 		elif (direction == 'r' | direction == 'd'):
 			if new_peca.num_left == self.array[-1].num_right:
 				self.array.append(new_peca)
@@ -40,7 +42,7 @@ class Tabuleiro:
 				new_peca.rotate()
 				self.array.append(new_peca)
 			else:
-				print 'Jogada impossivel'
+				print 'Ivalide move'
 
 	def add2(self, new_peca):
 		self.array.append(new_peca)
@@ -52,6 +54,8 @@ class Tabuleiro:
 		for i in range(len(self.array)):
 			if self.array[i].num_id == num_id:
 				pass
+
+	#def __getitem__(self,index):
 
 def new_game():
 	num_id = 0
