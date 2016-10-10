@@ -11,6 +11,7 @@
   TODO:
 	- finish ret() function
 	- insert comments
+	- change the name array
 
   CHANGELOG:
 	(2016-09-27)	Rafhael
@@ -22,16 +23,12 @@
 '''
 
 class Peca:
-	def __init__(self, num_left, num_right, num_id):
-		self.num_left = num_left
-		self.num_right = num_right
+	def __init__(self, simbol, num_id):
+		self.num_left = simbol[0]
+		self.num_right = simbol[1]
 		self.num_id = num_id
 
 	def __str__(self):
-		return (" [" + str(self.num_left) + 
-			"|" + str(self.num_right) + "] ")
-
-	def __call__(self):
 		return (" [" + str(self.num_left) + 
 			"|" + str(self.num_right) + "] ")
 
@@ -45,9 +42,19 @@ class Carreira(Peca):
 		Peca.__init__(self,num_left,num_right)
 
 class Tabuleiro:
-	def __init__(self, first):
+	def __init__(self):
 		self.array = []
-		self.array.append(first)
+
+	def __str__(self):
+		return str([self.array[i].__str__() 
+					for i in range(len(self.array))])
+
+	def __len__(self):
+		return len(self.array)
+
+	def __getitem__(self, index):
+		return self.array[index]
+
 
 	def add(self, direction, new_peca):
 		if (direction == 'l') | (direction == 'e'):
@@ -70,10 +77,6 @@ class Tabuleiro:
 	def add2(self, new_peca):
 		self.array.append(new_peca)
 
-	def __str__(self):
-		return str([self.array[i].__str__() 
-					for i in range(len(self.array))])
-
 	def ret(self, num_id):
 		for ii in range(len(self.array)):
 			if self.array[ii].num_id == num_id:
@@ -81,11 +84,11 @@ class Tabuleiro:
 
 def new_game():
 	num_id = 0
-	mesa = Tabuleiro(Peca(0, 0, 0))
-	for ii in range(8):
-		for jj in range(8):
+	mesa = Tabuleiro()
+	for ii in range(7):
+		for jj in range(7):
 			if jj > ii:
 				break
-			mesa.add2(Peca(ii, jj, num_id))
+			mesa.add2(Peca((ii,jj), num_id))
 			num_id = num_id + 1
 	return mesa
