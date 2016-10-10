@@ -14,6 +14,13 @@
 	- change the name array
 
   CHANGELOG:
+	(2016-10-10)	Rafhael
+		- file renamed: domino_peca -> Classes
+		- restructured __init__() of Tabuleiro and Peca classes
+		- introduced __getitem()__ and __len()__ in Tabuleiro class
+		- names changed: Peca -> Piece and Tabuleiro -> Board
+		- removed class Carreira
+
 	(2016-09-27)	Rafhael
 		- introduced first version of HEADER, TODO and CHANGELOG
 		- formating of code for a better looking
@@ -22,7 +29,7 @@
 		- introduced code of classes
 '''
 
-class Peca:
+class Piece
 	def __init__(self, simbol, num_id):
 		self.num_left = simbol[0]
 		self.num_right = simbol[1]
@@ -37,11 +44,7 @@ class Peca:
 		self.num_left = self.num_right
 		self.num_right = aux
 
-class Carreira(Peca):
-	def __init__(self,num_left,num_right):
-		Peca.__init__(self,num_left,num_right)
-
-class Tabuleiro:
+class Board:
 	def __init__(self):
 		self.array = []
 
@@ -84,11 +87,11 @@ class Tabuleiro:
 
 def new_game():
 	num_id = 0
-	mesa = Tabuleiro()
+	game = Board()
 	for ii in range(7):
 		for jj in range(7):
 			if jj > ii:
 				break
-			mesa.add2(Peca((ii,jj), num_id))
+			mesa.add2(Piece((ii, jj), num_id))
 			num_id = num_id + 1
-	return mesa
+	return game
