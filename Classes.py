@@ -10,15 +10,24 @@
 
   TODO:
 	- finish ret() function
-	- insert comments
-	- change the name array
+	- separe result of newGame() in two parcels randomly generated
+	- change Board constructor and remove add2() function 
 
   CHANGELOG:
+	(2016-11-20)	Rafhael
+		- comments and descriptions inserted
+		- changed variables names to a better format
+		- changed parameters of Piece constructor
+
+	(2016-10-11)	Rafhael
+		- renamed: self.array -> self.row
+		- funtion newGame() now returns a shuffled Board object
+
 	(2016-10-10)	Rafhael
 		- file renamed: domino_peca -> Classes
 		- restructured __init__() of Tabuleiro and Peca classes
 		- introduced __getitem()__ and __len()__ in Tabuleiro class
-		- names changed: Peca -> Piece and Tabuleiro -> Board
+		- renamed: Peca -> Piece and Tabuleiro -> Board
 		- removed class Carreira
 
 	(2016-09-27)	Rafhael
@@ -29,69 +38,101 @@
 		- introduced code of classes
 '''
 
-class Piece
-	def __init__(self, simbol, num_id):
-		self.num_left = simbol[0]
-		self.num_right = simbol[1]
-		self.num_id = num_id
+
+from random import shuffle
+
+#################################################
+### Classes 
+#################################################
+
+class Piece:
+	def __init__(self, numbers, numID):
+		'''
+		Initialize a Piece instance.
+	
+		Piece((a,b), Id) represents the piece of domino:
+
+                                         [a,b]
+
+		Id is used to indicate which piece is this inside a Board 
+		instance
+		'''
+
+		self.numbers = numbers
+		self.numID = numID
 
 	def __str__(self):
-		return (" [" + str(self.num_left) + 
-			"|" + str(self.num_right) + "] ")
+		'''Prints the object likewise a physical piece od domino'''
+		return 	"[" + str(self.numbers[0]) + \
+			"|" + str(self.numbers[1]) + "]"
 
 	def rotate(self):
-		aux = self.num_left
-		self.num_left = self.num_right
-		self.num_right = aux
+		'''
+		Inverts the the numbers of the piece, like the piece was 
+		rotated
+		'''
+		self.numbers = self.numbers[::-1]
+
 
 class Board:
 	def __init__(self):
-		self.array = []
+		'''
+		Initialize a Board instance
+		'''
+		self.row = []
 
 	def __str__(self):
-		return str([self.array[i].__str__() 
-					for i in range(len(self.array))])
+		return str([self.row[i].__str__() 
+					for i in range(len(self.row))])
 
 	def __len__(self):
-		return len(self.array)
+		return len(self.row)
 
 	def __getitem__(self, index):
-		return self.array[index]
+		return self.row[index]
 
-
-	def add(self, direction, new_peca):
-		if (direction == 'l') | (direction == 'e'):
-			if new_peca.num_right == self.array[0].num_left:
-				self.array.insert(0,new_peca)
-			elif new_peca.num_left == self.array[0].num_left:
-				new_peca.rotate()
-				self.array.insert(0,new_peca)
+	def add(self, direction, newPiece):
+		if (direction == 'l') | (direction == 'L'):
+			if newPiece.numbers[1] == self.row[0].numbers[0]:
+				self.row.insert(0, new_peca)
+			elif newPiece.numbers[0] == self.row[0].numbers[0]:
+				newPiece.rotate()
+				self.row.insert(0, newPiece)
 			else:
 				print 'Impossible move'
-		elif (direction == 'r' | direction == 'd'):
-			if new_peca.num_left == self.array[-1].num_right:
-				self.array.append(new_peca)
-			elif new_peca.num_right == self.array[-1].num_right:
-				new_peca.rotate()
-				self.array.append(new_peca)
+		elif (direction == 'r') | (direction == 'R'):
+			if newPiece.numbers[0] == self.row[-1].numbers[1]:
+				self.row.append(new_peca)
+			elif newPiece.numbers[1] == self.row[-1].numbers[1]:
+				newPiece.rotate()
+				self.row.append(newPiece)
 			else:
 				print 'Impossible move'
 
-	def add2(self, new_peca):
-		self.array.append(new_peca)
+	def add2(self, newPiece):
+		self.row.append(newPiece)
 
-	def ret(self, num_id):
-		for ii in range(len(self.array)):
-			if self.array[ii].num_id == num_id:
+	def ret(self, numID):
+		for ii in range(len(self.row)):
+			if self.row[ii].numID == numID:
 				pass
 
-def new_game():
-	num_id = 0
+	def randomize(self):
+		shuffle(self.row)
+
+
+#################################################
+### Functions 
+#################################################
+
+def newGame():
+	numID = 0
 	game = Board()
 	for ii in range(7):
 		for jj in range(7):
 			if jj > ii:
 				break
-			mesa.add2(Piece((ii, jj), num_id))
-			num_id = num_id + 1
+			game.add2(Piece((ii, jj), numID))
+			numID = numID + 1
+	game.randomize()
 	return game

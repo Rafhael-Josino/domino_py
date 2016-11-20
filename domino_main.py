@@ -1,32 +1,32 @@
-from domino_peca import Peca
-from domino_peca import Tabuleiro
+from Classes import Piece
+from Classes import Board
 
-a = Peca(1,2)
-b = Peca(5,2)
-c = Peca(1,4)
+a = Piece((1,2),0)
+b = Piece((5,2),0)
+c = Piece((1,4),0)
 
-print 'a => [1|2]'
-print 'b => [5|2]'
-print 'c => [1|4]'
+print 'a =>', a
+print 'b =>', b
+print 'c =>', c 
 
-print 'tabuleiro'
-t = Tabuleiro(a)
+print 'Board'
+t = Board()
+t.add2(a)
 print t
 print '------------------'
-print 'b pela esquerda'
+print 'b by the left'
 t.add('l',b)
 print t
 print '------------------'
-print 'b pela direita'
+print 'b by the right'
 t.add('r',b)
 print t
 print '------------------'
-print 'c pela direita'
+print 'c by the right'
 t.add('r',c)
 print t
 print '------------------'
-print 'c pela esquerda'
+print 'c by the left'
 t.add('l',c)
 print t
 print '------------------'
-
