@@ -55,32 +55,31 @@ import random
 #################################################
 
 class Piece:
-	def __init__(self, numbers):
+	def __init__(self, a, b):
 		'''
 		Initialize a Piece instance.
 	
 		Piece((a,b)) represents the piece of domino:
 
-                                         [a,b]
-
-		Id is used to indicate which piece is which inside a Board 
-		instance
+                                   [a,b]
 		'''
 
-		self.numbers = numbers
+		self.a = a
+		self.b = b
 
 	def __str__(self):
 		'''Prints the object likewise a physical piece of domino'''
-		return 	"[" + str(self.numbers[0]) + \
-			"|" + str(self.numbers[1]) + "]"
+		return 	"[" + str(self.a) + \
+			"|" + str(self.b) + "]"
 
 	def rotate(self):
 		'''
 		Inverts the the numbers of the piece, like the piece was 
 		rotated
 		'''
-		self.numbers = self.numbers[::-1]
-
+		aux = self.a
+		self.a = self.b
+		self.b = aux
 
 class Board:
 	def __init__(self, row):
@@ -110,9 +109,10 @@ class Board:
 		
 		# Inserting by the begin of the row (that is, its left)
 		if (direction == 'l') | (direction == 'L'):
-			if newPiece.numbers[1] == self.row[0].numbers[0]:
-				self.row.insert(0, new_peca)
-			elif newPiece.numbers[0] == self.row[0].numbers[0]:
+			#if newPiece.numbers[1] == self.row[0].numbers[0]:
+			if newPiece.b == self.row[0].a:
+				self.row.insert(0, newPiece)
+			elif newPiece.a == self.row[0].a:
 				newPiece.rotate()
 				self.row.insert(0, newPiece)
 			else:
@@ -120,9 +120,10 @@ class Board:
 
 		# Inserting by the end of the row (that is, its right)
 		elif (direction == 'r') | (direction == 'R'):
-			if newPiece.numbers[0] == self.row[-1].numbers[1]:
-				self.row.append(new_peca)
-			elif newPiece.numbers[1] == self.row[-1].numbers[1]:
+			#if newPiece.numbers[0] == self.row[-1].numbers[1]:
+			if newPiece.a == self.row[-1].b:
+				self.row.append(newPiece)
+			elif newPiece.b == self.row[-1].b:
 				newPiece.rotate()
 				self.row.append(newPiece)
 			else:
@@ -138,9 +139,9 @@ class Board:
 	def alfaOmega(self, key):
 		'''Return the value of one of the points of the table'''
 		if key == 0:
-			return self.row[0][0]
+			return self.row[0].a
 		else:
-			return self.row[-1][1]
+			return self.row[-1].b
 
 #################################################
 ### Functions 
@@ -182,17 +183,17 @@ def newGame(player, randomSeed):
 	# The player 1 always has the piece [6|6], putted on the game's table
 
 def checkGame(player, table):
-	'''Check if the player can make a move'''
+	'''Check if the player can make a move on the current table'''
 
-	alfa = table.alfaOmega(0)	# Begin of the table
-	omega = table.alfaOmega(1)	# End of the table
+	alfa = table[0].a	# Begin of the table
+	omega = table[-1].b	# End of the table
 
-	for ii in range(len(player))
+	for ii in range(len(player)):
 		# Check by the begin of the table
-		if (player[ii].numbers[0] == alfa) || (player[ii].numbers[1] == alfa):
+		if (player[ii].a == alfa) | (player[ii].b == alfa):
 			return 1
 		# Check by the end of the table
-		if (player[ii].numbers[0] == omega) || (player[ii].numbers[1] == omega):
+		if (player[ii].a == omega) | (player[ii].b == omega):
 			return 1
-	# In case of any piece can be inserted on the table
+	# In the case of any piece cannot be inserted on the table
 	return 0
