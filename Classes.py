@@ -9,14 +9,19 @@
 -------------------------------------------------------------------------------
 
   TODO:
-	- test methods ret & alfaOmega
-	- test function checkGame
-	- use method alfaOmega inside method add
+	- test methods ret
+	- make more tests with function checkGame
 
   CHANGELOG:
+	(2018-01-15)	Rafhael
+		- method alfaOmega removed
+		- attribute Piece.number -> Piece.a & Piece.b
+		- method Board.add & function checkGame updated
+
 	(2018-07-01)	Rafhael
 		- introduced method from Board: ret & alfaOmega
 		- introduced function checkGame
+
 	(2018-01-01)	Rafhael
 		- funtion  NewGame returns both Player's pieces and game's table as Board elements
 
@@ -136,12 +141,6 @@ class Board:
 		for ii in range(len(self.row)):
 			return self.row.pop(select - 1)
 
-	def alfaOmega(self, key):
-		'''Return the value of one of the points of the table'''
-		if key == 0:
-			return self.row[0].a
-		else:
-			return self.row[-1].b
 
 #################################################
 ### Functions 
