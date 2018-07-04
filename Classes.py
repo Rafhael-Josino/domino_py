@@ -11,8 +11,12 @@
   TODO:
 	- test methods ret
 	- make more tests with function checkGame
+	- implement new class Player in Player1.py and Player2.py
 
   CHANGELOG:
+	(2018-01-16)	Rafhael
+		- introduced class Player
+
 	(2018-01-15)	Rafhael
 		- method alfaOmega removed
 		- attribute Piece.number -> Piece.a & Piece.b
@@ -88,9 +92,7 @@ class Piece:
 
 class Board:
 	def __init__(self, row):
-		'''
-		Initialize a Board instance
-		'''
+		'''Initialize a Board instance'''
 		self.row = row
 
 	def __str__(self):
@@ -122,6 +124,7 @@ class Board:
 				self.row.insert(0, newPiece)
 			else:
 				print 'Impossible move'
+				return 0
 
 		# Inserting by the end of the row (that is, its right)
 		elif (direction == 'r') | (direction == 'R'):
@@ -133,14 +136,39 @@ class Board:
 				self.row.append(newPiece)
 			else:
 				print 'Impossible move'
+				return 0
+		
+		return 1
 
+class Player:
+	def __init__(self, row):
+		'''Initialize a Player instance'''
+		self.row = row
+
+	def __len__(self):
+		'''Return the number of pieces on the board'''
+		return len(self.row)
+
+	def __getitem__(self, index):
+		'''Return a specific piece of the board'''
+		return self.row[index]
+
+	def printPlayer(self, idt):
+		'''
+		Print the pieces of a player
+		'''
+		print 'Player ', idt
+		print str(['__'+ str((i+1)/10) + str((i+1)%10) + '_'
+					for i in range(len(self.row))])
+		print str([self.row[i].__str__() 
+					for i in range(len(self.row))])
+			
 	def ret(self, select):
 		'''
 		Takes off a Piece from a player to be inserted in the table
 		'''
 		for ii in range(len(self.row)):
 			return self.row.pop(select - 1)
-
 
 #################################################
 ### Functions 
@@ -160,7 +188,7 @@ def newGame(player, randomSeed):
 		for jj in range(7):
 			if jj > ii:
 				break
-			pieceList[counter] = Piece((ii, jj))
+			pieceList[counter] = Piece(ii, jj)
 			counter = counter + 1
 	
 	# Create object Board with piece [6|6] and then shuffle the other 
@@ -181,9 +209,11 @@ def newGame(player, randomSeed):
 
 	# The player 1 always has the piece [6|6], putted on the game's table
 
-def checkGame(player, table):
-	'''Check if the player can make a move on the current table'''
 
+def checkGame(player, table):
+	'''
+	Check if the player can make any move on the current table
+	'''
 	alfa = table[0].a	# Begin of the table
 	omega = table[-1].b	# End of the table
 
@@ -196,3 +226,16 @@ def checkGame(player, table):
 			return 1
 	# In the case of any piece cannot be inserted on the table
 	return 0
+
+
+def moveGame(player, table):
+	'''
+ 	Put a piece from a player to the table
+	Called after checkGame function
+	'''
+	pieceNumber = input('Chose the piece: ')
+	piece = player[pieceNumber]
+
+	tableSide = input('Chose the side of the table [r/l]: ')
+	result = table.add(tableSide, piece)
+	

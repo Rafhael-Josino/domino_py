@@ -1,5 +1,6 @@
 from Classes import Piece
 from Classes import Board
+from Classes import Player
 from Classes import checkGame
 
 a = Piece(1,2)
@@ -19,34 +20,44 @@ t = Board([a])
 print t
 print '------------------'
 print 'b by the left'
-t.add('l',b)
+key = t.add('l',b)
+print key
 print t
 print '------------------'
 print 'b by the right'
-t.add('r',b)
+key = t.add('r',b)
+print key
 print t
 print '------------------'
 print 'c by the right'
-t.add('r',c)
+key = t.add('r',c)
+print key
 print t
 print '------------------'
 print 'c by the left'
-t.add('l',c)
+key = t.add('l',c)
+print key
 print t
 print '------------------'
 print 'd by the right'
-t.add('r',d)
+key = t.add('r',d)
+print key
 print t
 print '------------------'
 print 'e by the left'
-t.add('l',e)
+key = t.add('l',e)
+print key
 print t
 print '------------------'
 
-player = Board([Piece(2,2),Piece(6,6)])
-print 'Player: ', player
+# Player instance
+player = Player([Piece(2,2),Piece(6,6)])
+player.printPlayer(1)
 
 if checkGame(player, t):
 	print 'Possible'
+	
 else:
 	print 'Impossible'
+
+
